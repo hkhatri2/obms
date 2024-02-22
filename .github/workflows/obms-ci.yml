@@ -42,7 +42,7 @@ jobs:
       - name: Setup Python 3.10
         uses: actions/setup-python@v3
         with:
-          python-version: 3.10
+          python-version: '3.10'
 
       - name: Install Linters
         run: pip install djlint pylint pylint_django
@@ -58,7 +58,6 @@ jobs:
           script: |
               core.setFailed('Linting found errors! Run a pylint on app/obms to see them.')
 
-
       - name: Lint HTML and Jinja Templates
         id: dj-lint
         run: djlint echo "html_rating=$(./app/obms/librarian/templates --extension=html --lint | grep 'found 0 errors')
@@ -69,6 +68,11 @@ jobs:
         with:
           script: |
               core.setFailed('Linting found errors! Run djlint on the templates directory to see them.')
+
+      - name: Stop and Down Compose Gracefully
+        run: |
+          docker compose stop
+          docker compose down
 
 
 
