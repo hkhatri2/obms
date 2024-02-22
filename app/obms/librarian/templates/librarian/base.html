@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript" src="{{ STATIC_URL }}/static/jquery-3.7.1.js">
+    </script> 
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}OBMS{% endblock %}</title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/books.png' %}" >
+    <!-- Bootstrap CSS CDN Link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <style>
+        /* Add your custom CSS styles here */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            padding-top: 70px; /* Adjust according to the navbar height */
+            padding-bottom: 100px; /* Adjust according to the footer height */
+        }
+
+        header {
+            color: #757575;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            line-height: 0.5;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+        }
+
+        .dropdown-item {
+            color: #fff
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navbar Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href={% url 'index' %}>OBMS</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">Contact</a>
+                    </li>
+                    {% if reader %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/librarian">Library</a>
+                    </li>
+                    <li class="nav-item">
+                        <div style="position:relative;">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ reader.username }}
+                            </a>
+                            <div style="background-color: #343A40; text-align:right; min-width: 1rem;" class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/profile">Profile</a>
+                                <a class="dropdown-item" href="/cart">My Cart</a>
+                                <form action="{% url 'password_change' %}" method="POST">
+                                    {% csrf_token %}
+                                    <button class="dropdown-item" type="submit">Change Password</button>
+                                </form>
+                                <form action="{% url 'logout' %}" method="POST">
+                                    {% csrf_token %}
+                                    <button class="dropdown-item" type="submit">Log out</button>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 OBMS. All rights reserved. | Created by Hans Khatri</p>
+            <p>For support, contact: Hans Khatri</p>
+        </div>
+    </footer>
+    <!-- Bootstrap JS CDN Link -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

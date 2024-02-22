@@ -19,7 +19,7 @@ A simple Django + postgres starter app. Includes cli. </br>
 - If you want to run locally (not recommended):
     - virtualenv (`python3 -m pip install --user virtualenv`)
         - Then, navigate to root of git project
-        - `python3 -m virtualenv \<env-name\>`
+        - `python3 -m virtualenv <env-name>`
     - Run `pip install -r requirements.txt` inside your virtualenv
     - Change settings.py `DATABASES` var in the django project to your postgres name, user, password, and host to localhost.
 - To run containerized, first start Docker: 
