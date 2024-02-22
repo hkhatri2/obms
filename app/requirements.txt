@@ -1,0 +1,5 @@
+psycopg2
+django
+djangorestframework
+python-colored-print
+django-cors-headers

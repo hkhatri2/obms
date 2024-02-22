@@ -1,0 +1,53 @@
+{% extends "librarian/base.html" %}
+{% block content %}
+    <style>
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: auto;
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+<body>
+    <header>
+        <h1 style="margin:70px;">Online Bookstore Management System</h1>
+    </header>
+    <div class="container">
+        <h2>Login</h2>
+
+        {% if next and not form.errors %}
+            {% if user.is_authenticated %}
+            <p>Your account doesn't have access to this page. To proceed,
+            please login with an account that has access.</p>
+            {% else %}
+            <p>Please login to see this page.</p>
+            {% endif %}
+        {% endif %}
+
+
+        <form action={% url 'login' %} method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Log In">
+        <input type="hidden" name="next" value="/">
+        </form>
+    </div>
+</body>
+{% endblock %}

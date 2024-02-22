@@ -1,0 +1,143 @@
+{% extends "librarian/base.html" %}
+{% load static %}
+{% block content %}
+<style>
+    .back {
+        display: inline-block;
+        padding: 5px;
+        background-color: #4CAF50;
+        color: white;
+        text-decoration: none;
+        font-size: 1.2em;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        align-items: center;
+    }
+
+    .cart-list {
+        height: 400px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .book-list {
+        height: 400px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    
+    .cart-list-item {
+        cursor: pointer;
+        align-items: center;
+        margin-bottom: 5px;
+        padding: 15px;
+        background-color: #f3f3f3;
+        border-radius: 5px;
+    }
+    
+    .cart-list-item:hover {
+        background-color: #e0e0e0;
+    }
+    
+    .cart-details {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    .table {
+        display:table;
+        border-spacing:2px;
+        width: 100%;
+        table-layout: fixed;
+        border-collapse: collapse;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .thead {
+        display:table-header-group;
+        font-weight:bold;
+        background-color: #009879;
+        color: #ffffff;
+        width: 100%;
+        padding: 12px 15px;
+    }
+
+    .tbody {
+        display:table-row-group;
+        width: 100%;
+    }
+
+    .tr {
+        display:table-row;
+        width: 100%;
+        background-color: #a6a6a6;
+        color: #ffffff;
+        margin: 10px 10px;
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .tr:not(.th):hover {
+        background-color: #000000;
+    }
+
+    .td {
+        display:table-cell;
+        padding: 12px 15px;
+        width: 100%;
+    }
+</style>
+
+<body>
+    <div>
+        {% comment %} <div class="container">
+            <h1>Library</h1>
+            <div class="cart-list" id="bookList">
+                <!-- Object items will be added here dynamically -->
+            </div>
+            <div class="cart-details" id="bookDetails">
+                <!-- Object details will be displayed here dynamically -->
+            </div>
+        </div> {% endcomment %}
+
+        <div>
+            <div style="display:flex; justify-content:space-between;">
+                <a href="/librarian/"><button class="back">Back</button></a>
+                <h1>Shopping Cart</h1>
+                <p style="align-self: flex-end; margin-bottom: 0px;">Return Book</p>
+            </div>
+            <div class="cart-list" id="cartList">
+                <!-- Object items will be added here dynamically -->
+            </div>
+            <div class="table" id="book-list">
+                <div class="thead">
+                    <div class="tr th">
+                        <div class="td">Title</div>
+                        <div class="td">Author</div>
+                        <div class="td">Genre</div>
+                        <div class="td">Available</div>
+                    </div>
+                </div>
+                <div class="tbody">
+                    <form class="tr" id="cart-form" action={% url 'cart' %} method="POST">
+                        {% csrf_token %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    let books = JSON.parse('{{books|safe}}');
+    //let library_books = JSON.parse('{{library_books|safe}}');
+</script>
+<script type="text/javascript" src="{% static 'cart.js' %}"></script>
+
+{% endblock %}

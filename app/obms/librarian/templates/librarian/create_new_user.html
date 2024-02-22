@@ -1,0 +1,80 @@
+{% extends "librarian/base.html" %}
+
+{% block content %}
+<style>
+
+    label {
+        display: block;
+        font-size: 1.2em;
+        margin-bottom: 10px;
+    }
+
+    form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        max-width: 600px;
+        margin: auto;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 1.1em;
+    }
+
+    select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 1.1em;
+    }
+
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.2em;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+</style>
+
+<body>
+    <div style="color: #757575;" class="body">
+
+        <h1>Create New User</h1>
+        {% if error %}
+            <div style="max-width: 600px; margin: 0 auto; padding: 5px;" class="alert alert-danger">
+                {{ error }}
+            </div>
+        {% endif %}
+        <form action={% url 'profile' %} method="POST">
+            {% csrf_token %}
+            {{ userForm }}
+            {{ readerForm }}
+            <input type="submit" value="Create User">
+        </form>
+    </div>
+</body>
+
+<script>
+    setInterval(function(){ $(".alert").fadeOut(); }, 3000);
+</script>
+{% endblock %}
