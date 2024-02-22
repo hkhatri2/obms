@@ -14,6 +14,7 @@ services:
     build: ./app
     image: django
     container_name: app
+    restart: unless-stopped
     command:
       - /bin/bash
       - -c
