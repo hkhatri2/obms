@@ -32,43 +32,40 @@ jobs:
           echo DJANGO_SECRET_KEY='${{ secrets.DJANGO_SECRET_KEY }}' >> .env
           echo POSTGRES_HOST=db >> .env
           echo POSTGRES_PORT=5432 >> .env
-          cat .env
+
+      - name: Compose OBMS
+        run: docker compose up --build
+
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.10
+
+      - name: Install Linters
+        run: pip install djlint pylint pylint_django
+
+      - name: Lint Python
+        id: py-lint
+        run: echo "python_rating=$(pylint ./app/obms)\n" >> $GITHUB_OUTPUT
+
+      - name: Check Python Linting
+        if: ${{ !steps.py-lint.outputs.python_rating }}
+        uses: actions/github-script@v3
+        with:
+          script: |
+              core.setFailed('Linting found errors! Run a pylint on app/obms to see them.')
 
 
+      - name: Lint HTML and Jinja Templates
+        id: dj-lint
+        run: djlint echo "html_rating=$(./app/obms/librarian/templates --extension=html --lint | grep 'found 0 errors')
 
-      # - name: Compose OBMS
-      #   run: docker compose up --build
-
-      # - name: Setup Python 3.10
-      #   uses: actions/setup-python@v3
-      #   with:
-      #     python-version: 3.10
-
-      # - name: Install Linters
-      #   run: pip install djlint pylint pylint_django
-
-      # - name: Lint Python
-      #   id: py-lint
-      #   run: echo "python_rating=$(pylint ./app/obms)\n" >> $GITHUB_OUTPUT
-
-      # - name: Check Python Linting
-      #   if: ${{ !steps.py-lint.outputs.python_rating }}
-      #   uses: actions/github-script@v3
-      #   with:
-      #     script: |
-      #         core.setFailed('Linting found errors! Run a pylint on app/obms to see them.')
-
-
-      # - name: Lint HTML and Jinja Templates
-      #   id: dj-lint
-      #   run: djlint echo "html_rating=$(./app/obms/librarian/templates --extension=html --lint | grep 'found 0 errors')
-
-      # - name: Check HTML Linting
-      #   if: ${{ !steps.dj-lint.outputs.html_rating }}
-      #   uses: actions/github-script@v3
-      #   with:
-      #     script: |
-      #         core.setFailed('Linting found errors! Run djlint on the templates directory to see them.')
+      - name: Check HTML Linting
+        if: ${{ !steps.dj-lint.outputs.html_rating }}
+        uses: actions/github-script@v3
+        with:
+          script: |
+              core.setFailed('Linting found errors! Run djlint on the templates directory to see them.')
 
 
 
