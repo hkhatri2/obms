@@ -1,0 +1,13 @@
+*.egg-info
+*.log
+*.pot
+*.pyc
+__pycache__
+media
+migrations
+obms-env
+.vscode
+*.egg
+*.egg*
+*.env
+dbdata
