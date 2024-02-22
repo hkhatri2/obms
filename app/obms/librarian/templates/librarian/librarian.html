@@ -1,0 +1,121 @@
+{% extends "librarian/base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    h1 {
+        color: #333;
+        text-align: center;
+    }
+    
+    input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    button.selected {
+        background-color: #6C757D;
+        color: white;
+    }
+
+    .table {
+        display:table;
+        border-spacing:2px;
+        width: 100%;
+        table-layout: fixed;
+        border-collapse: collapse;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .thead {
+        display:table-header-group;
+        font-weight:bold;
+        background-color: #009879;
+        color: #ffffff;
+        width: 100%;
+        padding: 12px 15px;
+    }
+
+    .tbody {
+        display:table-row-group;
+        width: 100%;
+    }
+
+    .tr {
+        display:table-row;
+        width: 100%;
+        background-color: #a6a6a6;
+        color: #ffffff;
+        margin: 10px 10px;
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .tr:not(.th):hover {
+        background-color: #000000;
+    }
+
+    .td {
+        display:table-cell;
+        padding: 12px 15px;
+        width: 100%;
+    }
+
+</style>
+<script type="text/javascript">
+    let objects = JSON.parse('{{library_books|safe}}');
+</script>
+<body>
+    <div class="container">
+        <h1>Library</h1>
+        {% if error %}
+        <div id="error-div" style="max-width: 600px; margin: 0 auto; padding: 5px;" class="alert alert-danger">
+            {{ error }}
+        </div>
+        {% endif %}
+        <div style="font-size: 0; display:block; text-align:right;" class="btn-group">
+            <button id="browse" value="" type="button" class="btn btn-outline-secondary ">
+                <span class="visually-hidden">Just Browse</span>
+            </button>
+            <button id="title" value="title" type="button" class="btn btn-outline-secondary ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel" viewBox="0 0 16 16">
+                    <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"></path>
+                </svg>
+                <span class="visually-hidden">Title</span>
+            </button>
+            <button value="author" type="button" class="btn btn-outline-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel" viewBox="0 0 16 16">
+                    <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"></path>
+                </svg>
+                <span class="visually-hidden">Author</span>
+            </button>
+            <button value="genre" type="button" class="btn btn-outline-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel" viewBox="0 0 16 16">
+                    <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"></path>
+                </svg>
+                <span class="visually-hidden">Genre</span>
+            </button>
+        </div>
+        <input type="text" id="searchInput" placeholder="Search objects...">
+        <div class="table" id="book-list">
+            <div class="thead">
+                <div class="tr th">
+                    <div class="td">Title</div>
+                    <div class="td">Author</div>
+                    <div class="td">Genre</div>
+                    <div class="td">Available</div>
+                    <div class="td">Check Out</div>
+                </div>
+                <div id="results" class="tbody results-list">
+                    <!-- Results will appear here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="{% static 'librarian.js' %}"></script>
+{% endblock %}
