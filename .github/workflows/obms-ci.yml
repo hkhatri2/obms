@@ -12,8 +12,6 @@ on:
     branches:
       - '**'
 
-
-
 jobs:
   Lint:
     # The type of runner that the job will run on
@@ -23,17 +21,18 @@ jobs:
 
       - name: Create .env
         run: |
-          touch .env
-          echo POSTGRES_DB=${{ vars.POSTGRES_DB }} >> .env
-          echo POSTGRES_NAME=${{ vars.POSTGRES_NAME }} >> .env
-          echo POSTGRES_USER=${{ vars.POSTGRES_USER }} >> .env
-          echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
-          echo DJANGO_SUPERUSER_USERNAME=${{ secrets.DJANGO_SUPERUSER_USERNAME }} >> .env
-          echo DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }} >> .env
-          echo DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }} >> .env
-          echo DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} >> .env
-          echo POSTGRES_HOST=db >> .env
-          echo POSTGRES_PORT=5432 >> .env
+          cat <<EOF > .env
+          POSTGRES_DB="${{ vars.POSTGRES_DB }}"
+          POSTGRES_NAME="${{ vars.POSTGRES_NAME }}"
+          POSTGRES_USER="${{ vars.POSTGRES_USER }}"
+          POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}"
+          DJANGO_SUPERUSER_USERNAME="${{ secrets.DJANGO_SUPERUSER_USERNAME }}"
+          DJANGO_SUPERUSER_EMAIL="${{ secrets.DJANGO_SUPERUSER_EMAIL }}"
+          DJANGO_SUPERUSER_PASSWORD="${{ secrets.DJANGO_SUPERUSER_PASSWORD }}"
+          DJANGO_SECRET_KEY="${{ secrets.DJANGO_SECRET_KEY }}"
+          POSTGRES_HOST="db"
+          POSTGRES_PORT="5432"
+          EOF
 
       - name: Compose OBMS
         run: docker compose up --build
