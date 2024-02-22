@@ -4,10 +4,10 @@ from django.db.utils import OperationalError
 from django.core.management import BaseCommand
 
 class Command(BaseCommand):
-    """Django command to pause execution until db is available
+    """
+    Django command to pause execution until db is available
     https://stackoverflow.com/questions/52621819/django-unit-test-wait-for-database
     """
-
     def handle(self, *args, **options):
         self.stdout.write('Waiting for database...')
         while True:

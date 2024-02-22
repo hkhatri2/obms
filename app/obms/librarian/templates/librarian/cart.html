@@ -29,7 +29,7 @@
         padding: 10px;
         border-radius: 5px;
     }
-    
+
     .cart-list-item {
         cursor: pointer;
         align-items: center;
@@ -38,11 +38,11 @@
         background-color: #f3f3f3;
         border-radius: 5px;
     }
-    
+
     .cart-list-item:hover {
         background-color: #e0e0e0;
     }
-    
+
     .cart-details {
         margin-top: 20px;
         padding: 20px;
@@ -92,6 +92,16 @@
         padding: 12px 15px;
         width: 100%;
     }
+
+    .spread {
+        display:flex;
+        justify-content:space-between;
+    }
+
+    p {
+        align-self: flex-end;
+        margin-bottom: 0px;
+    }
 </style>
 
 <body>
@@ -107,10 +117,10 @@
         </div> {% endcomment %}
 
         <div>
-            <div style="display:flex; justify-content:space-between;">
+            <div class="spread">
                 <a href="/librarian/"><button class="back">Back</button></a>
                 <h1>Shopping Cart</h1>
-                <p style="align-self: flex-end; margin-bottom: 0px;">Return Book</p>
+                <p>Return Book</p>
             </div>
             <div class="cart-list" id="cartList">
                 <!-- Object items will be added here dynamically -->
@@ -125,7 +135,7 @@
                     </div>
                 </div>
                 <div class="tbody">
-                    <form class="tr" id="cart-form" action={% url 'cart' %} method="POST">
+                    <form class="tr" id="cart-form" action={% url 'cart' %} method="post">
                         {% csrf_token %}
                     </form>
                 </div>
@@ -136,7 +146,7 @@
 
 <script type="text/javascript">
     let books = JSON.parse('{{books|safe}}');
-    //let library_books = JSON.parse('{{library_books|safe}}');
+    //let libraryBooks = JSON.parse('{{libraryBooks|safe}}');
 </script>
 <script type="text/javascript" src="{% static 'cart.js' %}"></script>
 
