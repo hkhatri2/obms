@@ -59,10 +59,6 @@ jobs:
           score=$(bc -l <<< 10-${final})
           echo "python_rating=${score}" >> $GITHUB_OUTPUT
 
-      # - name: Lint Python
-      #   id: py-lint
-      #   run: echo "python_rating=$(pylint ./app/obms | grep 'Your code has been rated')" >> $GITHUB_OUTPUT
-
       - name: Check Python Linting
         if: ${{ steps.py-lint.outputs.python_rating != '0' }}
         uses: actions/github-script@v3
@@ -72,7 +68,7 @@ jobs:
 
       - name: Lint HTML and Jinja Templates
         id: dj-lint
-        run: djlint echo "html_rating=$(./app/obms/librarian/templates --extension=html --lint | grep 'found 0 errors')
+        run: echo "html_rating=$(djlint ./app/obms/librarian/templates --extension=html --lint | grep 'found 0 errors')" >> $GITHUB_OUTPUT
 
       - name: Check HTML Linting
         if: ${{ !steps.dj-lint.outputs.html_rating }}
@@ -81,10 +77,10 @@ jobs:
           script: |
               core.setFailed('Linting found errors! Run djlint on the templates directory to see them.')
 
-      - name: Stop and Down Compose Gracefully
-        run: |
-          docker compose stop
-          docker compose down
+      # - name: Stop and Down Compose Gracefully
+      #   run: |
+      #     docker compose stop
+      #     docker compose down
 
 
 
