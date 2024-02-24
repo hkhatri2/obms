@@ -37,7 +37,7 @@ jobs:
         run: docker compose build
 
       - name: Compose OBMS
-        run: docker compose up -d
+        run: docker compose up -d --wait --wait-timeout 60
 
       - name: Setup Python 3.10
         uses: actions/setup-python@v3
