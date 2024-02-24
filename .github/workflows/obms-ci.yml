@@ -30,11 +30,7 @@ jobs:
           echo DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }} >> .env
           echo DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }} >> .env
           echo DJANGO_SECRET_KEY='${{ secrets.DJANGO_SECRET_KEY }}' >> .env
-          echo POSTGRES_HOST=db >> .env
-          echo POSTGRES_PORT=5432 >> .env
-
-      - name: Build OBMS Stack
-        run: docker compose build
+          echo PG_DATA=/var/lib/postgresql/data/pgdata >> .env
 
       - name: Compose OBMS
         run: docker compose up -d --wait --wait-timeout 60
