@@ -53,16 +53,18 @@ jobs:
         id: py-lint
         run: |
           prefix="Your code has been rated at "
-          suffix="/10"
-          string=$(pylint ./app/obms | grep $prefix)
-          echo ${string}
+          string=$(pylint ./app/obms/ | grep "$prefix")
+          rating=${string#"$prefix"}
+          final=$(echo "$rating" | cut -f1 -d "/")
+          score=$(bc -l <<< 10-${final})
+          echo "python_rating=${score}" >> $GITHUB_OUTPUT
 
       # - name: Lint Python
       #   id: py-lint
       #   run: echo "python_rating=$(pylint ./app/obms | grep 'Your code has been rated')" >> $GITHUB_OUTPUT
 
       - name: Check Python Linting
-        if: ${{ !steps.py-lint.outputs.python_rating }}
+        if: ${{ steps.py-lint.outputs.python_rating != '0' }}
         uses: actions/github-script@v3
         with:
           script: |
