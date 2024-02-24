@@ -55,9 +55,7 @@ jobs:
           prefix="Your code has been rated at "
           suffix="/10"
           string=$(pylint ./app/obms | grep $prefix)
-          rating=${string#"$prefix"}
-          rating=${rating%"$suffix"}
-          echo $rating
+          echo ${string}
 
       # - name: Lint Python
       #   id: py-lint
