@@ -51,7 +51,7 @@ jobs:
 
       - name: Lint Python
         id: py-lint
-        run: pylint ./app/obms | tail -1
+        run: echo $(pylint ./app/obms | tail -1)
 
       # - name: Lint Python
       #   id: py-lint
