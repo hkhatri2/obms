@@ -51,7 +51,11 @@ jobs:
 
       - name: Lint Python
         id: py-lint
-        run: echo "python_rating=$(pylint ./app/obms)\n" >> $GITHUB_OUTPUT
+        run: pylint ./app/obms
+
+      # - name: Lint Python
+      #   id: py-lint
+      #   run: echo "python_rating=$(pylint ./app/obms)\n" >> $GITHUB_OUTPUT
 
       - name: Check Python Linting
         if: ${{ !steps.py-lint.outputs.python_rating }}
