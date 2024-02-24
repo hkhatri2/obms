@@ -33,7 +33,7 @@ jobs:
           echo PG_DATA=/var/lib/postgresql/data/pgdata >> .env
 
       - name: Compose OBMS
-        run: docker compose up -d --wait --wait-timeout 60
+        run: docker compose up --build --detach --wait --wait-timeout 60
 
       - name: Setup Python 3.10
         uses: actions/setup-python@v3
