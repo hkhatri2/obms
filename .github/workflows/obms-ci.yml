@@ -54,7 +54,7 @@ jobs:
         run: |
           prefix="Your code has been rated at "
           suffix="/10"
-          string=pylint ./app/obms | grep $prefix
+          string=$(pylint ./app/obms | grep $prefix)
           rating=${string#"$prefix"}
           rating=${rating%"$suffix"}
           echo $rating
