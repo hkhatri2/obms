@@ -46,8 +46,8 @@ jobs:
           python3.10 -m venv env
           source env/bin/activate
 
-      - name: Install Linters
-        run: pip install djlint pylint pylint_django
+      - name: Install Requirements
+        run: pip install -r ./app/requirements.txt
 
       - name: Lint Python
         id: py-lint
