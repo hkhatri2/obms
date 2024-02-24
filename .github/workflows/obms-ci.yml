@@ -51,11 +51,11 @@ jobs:
 
       - name: Lint Python
         id: py-lint
-        run: echo $(pylint ./app/obms | tail -1)
+        run: pylint ./app/obms | grep 'Your code has been rated'
 
       # - name: Lint Python
       #   id: py-lint
-      #   run: echo "python_rating=$(pylint ./app/obms)" >> $GITHUB_OUTPUT
+      #   run: echo "python_rating=$(pylint ./app/obms | grep 'Your code has been rated')" >> $GITHUB_OUTPUT
 
       - name: Check Python Linting
         if: ${{ !steps.py-lint.outputs.python_rating }}
