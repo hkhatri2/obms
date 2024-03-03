@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // const bookDetails = document.getElementById('bookDetails');
 
     // // Display books in the list
-    // library_books.forEach(book => {
+    // libraryBooks.forEach(book => {
     //     const listItem = document.createElement('div');
     //     listItem.classList.add('cart-list-item');
     //     listItem.textContent = book.title;

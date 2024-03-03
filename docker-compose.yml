@@ -5,7 +5,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - ./dbdata:/var/lib/postgresql/data
+      - ./dbdata:/var/lib/postgresql/db_data
     user: postgres
     env_file:
       - .env
@@ -14,11 +14,12 @@ services:
     build: ./app
     image: django
     container_name: app
-    command: 
+    restart: unless-stopped
+    command:
       - /bin/bash
       - -c
       - |
-        python3 obms/manage.py wait_for_db &&
+        python3 obms/manage.py waitfordb &&
         python3 obms/manage.py makemigrations &&
         python3 obms/manage.py migrate &&
         (python3 obms/manage.py createsuperuser --noinput || true) &&

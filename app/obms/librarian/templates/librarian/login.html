@@ -24,10 +24,14 @@
             color: #fff;
             cursor: pointer;
         }
+
+        h1 {
+            margin-bottom:150px;
+        }
     </style>
 <body>
     <header>
-        <h1 style="margin:70px;">Online Bookstore Management System</h1>
+        <h1>Online Bookstore Management System</h1>
     </header>
     <div class="container">
         <h2>Login</h2>
@@ -41,8 +45,7 @@
             {% endif %}
         {% endif %}
 
-
-        <form action={% url 'login' %} method="POST">
+        <form action={% url 'login' %} method="post">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="Log In">
