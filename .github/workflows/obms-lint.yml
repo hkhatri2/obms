@@ -1,0 +1,58 @@
+name: OBMS Lint
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+  push:
+    branches:
+      - '**'
+
+jobs:
+  Lint:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.10'
+
+      - name: Create and source venv
+        run: |
+          pip install --upgrade pip
+          python3.10 -m venv env
+          source env/bin/activate
+
+      - name: Install Requirements
+        run: pip install -r ./app/requirements.txt
+
+      - name: Lint Python
+        id: py-lint
+        run: |
+          prefix="Your code has been rated at "
+          string=$(pylint ./app/obms/ | grep "$prefix")
+          rating=${string#"$prefix"}
+          final=$(echo "$rating" | cut -f1 -d "/")
+          score=$(bc -l <<< 10-${final})
+          echo "python_rating=${score}" >> $GITHUB_OUTPUT
+
+      - name: Check Python Linting
+        if: ${{ steps.py-lint.outputs.python_rating != '0' }}
+        uses: actions/github-script@v3
+        with:
+          script: |
+              core.setFailed('Linting found errors! Run a pylint on app/obms to see them.')
+
+      - name: Lint HTML and Jinja Templates
+        id: dj-lint
+        run: echo "html_rating=$(djlint ./app/obms/librarian/templates --extension=html --lint | grep 'found 0 errors')" >> $GITHUB_OUTPUT
+
+      - name: Check HTML Linting
+        if: ${{ !steps.dj-lint.outputs.html_rating }}
+        uses: actions/github-script@v3
+        with:
+          script: |
+              core.setFailed('Linting found errors! Run djlint on the templates directory to see them.')

@@ -7,7 +7,7 @@
         color: #333;
         text-align: center;
     }
-    
+
     input[type="text"] {
         width: 100%;
         padding: 10px;
@@ -64,19 +64,31 @@
         width: 100%;
     }
 
+    .alert {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 5px;
+    }
+
+    .book-div {
+        font-size: 0;
+        display:block;
+        text-align:right;
+    }
+
 </style>
 <script type="text/javascript">
-    let objects = JSON.parse('{{library_books|safe}}');
+    let objects = JSON.parse('{{libraryBooks|safe}}');
 </script>
 <body>
     <div class="container">
         <h1>Library</h1>
         {% if error %}
-        <div id="error-div" style="max-width: 600px; margin: 0 auto; padding: 5px;" class="alert alert-danger">
+        <div id="error-div" class="alert alert-danger">
             {{ error }}
         </div>
         {% endif %}
-        <div style="font-size: 0; display:block; text-align:right;" class="btn-group">
+        <div class="book-div btn-group">
             <button id="browse" value="" type="button" class="btn btn-outline-secondary ">
                 <span class="visually-hidden">Just Browse</span>
             </button>

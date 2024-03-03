@@ -54,18 +54,23 @@
         background-color: #45a049;
     }
 
+    .error-div {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 5px;
+    }
+
 </style>
 
 <body>
-    <div style="color: #757575;" class="body">
-
+    <div class="grey body">
         <h1>Create New User</h1>
         {% if error %}
-            <div style="max-width: 600px; margin: 0 auto; padding: 5px;" class="alert alert-danger">
+            <div class="error-div alert alert-danger">
                 {{ error }}
             </div>
         {% endif %}
-        <form action={% url 'profile' %} method="POST">
+        <form action={% url 'profile' %} method="post">
             {% csrf_token %}
             {{ userForm }}
             {{ readerForm }}

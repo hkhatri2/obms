@@ -4,10 +4,12 @@
 *.pyc
 __pycache__
 media
-migrations
+**/migrations/*
 obms-env
 .vscode
 *.egg
 *.egg*
 *.env
 dbdata
+!**/migrations/__init__.py
+.DS_Store

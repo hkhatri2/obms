@@ -12,7 +12,7 @@ def cart():
 @click.option('--username', '-u', required=True, type=str, help='Your Username')
 def list(username):
     """List the books in your ShoppingCart."""
-    r = requests.get(f'http://127.0.0.1:8000/cart_api', data={'username': username})
+    r = requests.get(f'http://127.0.0.1:8000/cartAPI', data={'username': username})
     objects = json.loads(r.json())
     sorted_objects = sorted(objects, key=operator.itemgetter('id'))
     printCart(sorted_objects)
@@ -22,25 +22,25 @@ def list(username):
 @click.option('--username', type=str, required=True, help='username of Reader.')
 def checkout(id, username):
     """Add a book to your ShoppingCart."""
-    r = requests.post('http://127.0.0.1:8000/cart_api', {'id': id , 'username': username})
+    r = requests.post('http://127.0.0.1:8000/cartAPI', {'id': id , 'username': username})
     if r.headers['error'] == 'True':
         print('in if')
         log.err("BOOK NOT ADDED - Make sure it wasn't already in your cart or checked out by someone else. \n\n View checkout status by running: \n\tobms book list --title <book-title> \n")
     book = json.loads(r.json())
     printCart(book)
-    
+
 @cart.command()
 @click.option('--id', required=True, type=int, help='ID of the book.')
 @click.option('--username', type=str, required=True, help='username of Reader.')
 def remove(id, username):
     """Delete a book from your ShoppingCart."""
-    r = requests.delete('http://127.0.0.1:8000/cart_api', data={'id': id, 'username': username})
+    r = requests.delete('http://127.0.0.1:8000/cartAPI', data={'id': id, 'username': username})
     if r.headers['error'] == 'True':
         print('in if')
         log.err("BOOK NOT ADDED - Make sure it wasn't already in your cart or checked out by someone else. \n\n View checkout status by running: \n\tobms book list --title <book-title> \n")
     book = json.loads(r.json())
     printCart(book)
-    
+
 def printCart(objects):
     click.echo('---------------------------------------------')
     click.echo('---------------- Your Cart ------------------')

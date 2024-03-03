@@ -22,20 +22,25 @@
     .btn:hover {
         background-color: #45a049;
     }
+
+    p {
+        color: #757575;
+    }
 </style>
 <body>
     <div class="container">
         <h1>Welcome to OBMS</h1>
-        <div id="error-div" style="display:none; visibility:hidden; max-width: 600px; margin: 0 auto; padding: 5px;" class="alert alert-danger"></div>
+        <!-- djlint:off -->
+        <div id="error-div" style="display:none; visibility:hidden; max-width: 600px; margin: 0 auto; padding: 5px;" class="alert alert-danger"></div> <!-- djlint:on -->
 
-        <p style="color:#757575;">Login or Create a New User to Get Started</p>
+        <p>Login or Create a New User to Get Started</p>
         {% if reader %}
         <a href="librarian/" class="btn">Go to Library</a>
         {% else %}
         <a href="login/" class="btn">Log In</a>
         {% endif %}
 
-        <a id="create" href={% if error %} {% url 'index' %} {% else %} {% url 'create_new_user' %} {% endif %} class="btn">Create New User</a>
+        <a id="create" href={% if error %} {% url 'index' %} {% else %} {% url 'createNewUser' %} {% endif %} class="btn">Create New User</a>
     </div>
 </body>
 

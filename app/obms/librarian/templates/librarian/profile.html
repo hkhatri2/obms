@@ -52,22 +52,23 @@
     input[type="submit"]:hover {
         background-color: #45a049;
     }
+
 </style>
 
 <body>
-    
-    <div style="color: #757575;" class="body">
+    <div class="grey body">
         <h1>Edit Profile</h1>
         {% if error %}
+        <!-- djlint:off -->
         <div style="max-width: 600px; margin: 0 auto; padding: 5px;" class="alert alert-danger">
             {{ error }}
         </div>
         {% elif success %}
         <div style="max-width: 600px; margin: 0 auto; padding: 5px;" class="alert alert-success">
             {{ success }}
-        </div>
+        </div>  <!-- djlint:on -->
         {% endif %}
-        <form class="profile-form" action="/profile/" method="POST">
+        <form class="profile-form" action="/profile/" method="post">
             {% csrf_token %}
             {{ profileForm }}
             <input type="submit" value="Save User Profile">
