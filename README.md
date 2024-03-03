@@ -16,6 +16,8 @@ A simple Django + postgres starter app. Includes cli. </br>
         - `DJANGO_SUPERUSER_USERNAME=<superuser_username>`
         - `DJANGO_SUPERUSER_EMAIL=<superuser_email>`
         - `DJANGO_SUPERUSER_PASSWORD=<superuser_pw>`
+        - `DJANGO_SECRET_KEY='<your-key>'`
+        - `PG_DATA=/var/lib/postgresql/data/pgdata`
 - If you want to run locally (not recommended):
     - virtualenv (`python3 -m pip install --user virtualenv`)
         - Then, navigate to root of git project
