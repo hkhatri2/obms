@@ -1,0 +1,45 @@
+name: OBMS Tests
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+  push:
+    branches-ignore:
+      - dev
+      - main
+
+  pull_request:
+    types: [closed]
+    branches:
+      - dev
+      - main
+
+jobs:
+  Lint:
+    if: ${{ github.event.pull_request.merged == true }}
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create .env
+        run: |
+          touch .env
+          echo POSTGRES_DB=${{ vars.POSTGRES_DB }} >> .env
+          echo POSTGRES_NAME=${{ vars.POSTGRES_NAME }} >> .env
+          echo POSTGRES_USER=${{ vars.POSTGRES_USER }} >> .env
+          echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
+          echo DJANGO_SUPERUSER_USERNAME=${{ secrets.DJANGO_SUPERUSER_USERNAME }} >> .env
+          echo DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }} >> .env
+          echo DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }} >> .env
+          echo DJANGO_SECRET_KEY='${{ secrets.DJANGO_SECRET_KEY }}' >> .env
+          echo PG_DATA=/var/lib/postgresql/data/pgdata >> .env
+
+      - name: Compose OBMS
+        run: docker compose up --build --detach --wait --wait-timeout 60
+
+      - name: Stop and Down Compose Gracefully
+        run: |
+          docker compose stop
+          docker compose down
