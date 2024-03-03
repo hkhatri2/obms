@@ -1,4 +1,4 @@
-# OBMS
+# OBMS (Online Bookstore Management System)
 A simple Django + postgres starter app. Includes cli. </br>
 **Note: Uses the built-in Django frontend.**
 
